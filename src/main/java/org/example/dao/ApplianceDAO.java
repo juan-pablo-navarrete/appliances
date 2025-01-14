@@ -5,7 +5,7 @@ import java.util.List;
 public interface ApplianceDAO {
     List<ApplianceDTO> findAll();
 
-    ApplianceDTO finById(int id);
+    ApplianceDTO findById(int id);
 
     boolean deleteById(int id);
 

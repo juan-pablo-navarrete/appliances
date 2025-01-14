@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import org.example.commons.PropertiesReader;
 import org.example.dao.ApplianceDAO;
 import org.example.dto.ApplianceDTO;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Set;
 
@@ -16,15 +16,15 @@ public class ApplianceRepository {
         this.applianceDAOSet = applianceDAOSet;
     }
 
-    public List<ApplianceDTO> findAll() throws IOException {
+    public List<ApplianceDTO> findAll()  {
         return selectDAO().findAll();
     }
 
-    public ApplianceDTO findById(int id) throws IOException {
-        return selectDAO().finById(id);
+    public ApplianceDTO findById(int id)  {
+        return selectDAO().findById(id);
     }
 
-    public boolean deleteById(int id) throws IOException {
+    public boolean deleteById(int id) {
         return selectDAO().deleteById(id);
     }
 

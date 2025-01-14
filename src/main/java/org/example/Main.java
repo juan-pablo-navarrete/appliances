@@ -12,5 +12,6 @@ public class Main {
         Injector injector = Guice.createInjector(new ComponentInjectorConfig());
         ConnectionServer server = injector.getInstance(ConnectionServer.class);
         server.star();
+
     }
 }

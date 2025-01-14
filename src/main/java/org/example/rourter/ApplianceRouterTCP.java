@@ -27,7 +27,7 @@ public class ApplianceRouterTCP extends Thread {
                 PrintWriter outputWriter = new PrintWriter(socket.getOutputStream(), true);
         ) {
             String endpoint = inputReader.readLine();
-            if (endpoint.matches("^appliances/\\d{3}$")) {
+            if (endpoint.matches("^appliances/\\d+$")) {
                 String applianceid = endpoint.split("/")[1].trim();
                 applianceHandler.findById(Integer.parseInt(applianceid), outputWriter);
             }
@@ -35,7 +35,7 @@ public class ApplianceRouterTCP extends Thread {
             if (endpoint.equals("appliances/")) {
                 applianceHandler.findAll(outputWriter);
             }
-            if (endpoint.matches("^appliances/\\d{3}/delete$")) {
+            if (endpoint.matches("^appliances/\\d+/delete$")) {
                 String applianceid = endpoint.split("/")[1].trim();
                 applianceHandler.deleteById(Integer.parseInt(applianceid), outputWriter);
             }

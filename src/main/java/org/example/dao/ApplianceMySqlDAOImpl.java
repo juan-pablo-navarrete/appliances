@@ -2,7 +2,6 @@ package org.example.dao;
 
 import org.example.commons.MySQLConnection;
 import org.example.dto.ApplianceDTO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +18,7 @@ public class ApplianceMySqlDAOImpl implements ApplianceDAO{
         try {
             connection = MySQLConnection.getConnection();
             connection.setAutoCommit(false);
-            statement = connection.prepareStatement("SELECT code, type, name FROM pokemones");
+            statement = connection.prepareStatement("SELECT id, watts, name FROM appliance");
             result = statement.executeQuery();
 
             List<ApplianceDTO> applianceList = new ArrayList<>();
@@ -35,33 +34,37 @@ public class ApplianceMySqlDAOImpl implements ApplianceDAO{
             return applianceList;
         }catch (Exception exception) {
             rollback();
-            throw new RuntimeException("error to find all pokemones: " + exception.getMessage());
+            throw new RuntimeException("error to find all appliance: " + exception.getMessage());
         } finally {
             closeResources();
         }
     }
 
     @Override
-    public ApplianceDTO finById(int id) {
+    public ApplianceDTO findById(int id) {
         try {
             connection = MySQLConnection.getConnection();
             connection.setAutoCommit(false);
-            statement = connection.prepareStatement("SELECT code, type, name FROM pokemones WHERE code = ?");
+            statement = connection.prepareStatement("SELECT id, watts, name FROM appliance WHERE id = ?");
             statement.setInt(1, id);
             result = statement.executeQuery();
 
-            ApplianceDTO appliance = new ApplianceDTO();
+            ApplianceDTO appliance = null;
             if (result.next()) {
-                appliance.setId(result.getInt("code"));
+                appliance = new ApplianceDTO();
+                appliance.setId(result.getInt("id"));
                 appliance.setWatts(result.getInt("watts"));
                 appliance.setName(result.getString("name"));
             }
             connection.commit();
+
+            if (appliance==null)
+                throw new IllegalArgumentException("No record matching the id was found"+ id);
             return appliance;
 
         } catch (Exception exception) {
             rollback();
-            throw new RuntimeException("error to find appliance by code: " + exception.getMessage());
+            throw new RuntimeException("error to find appliance by id: " + exception.getMessage());
         } finally {
             closeResources();
         }
@@ -72,9 +75,7 @@ public class ApplianceMySqlDAOImpl implements ApplianceDAO{
         try {
             connection = MySQLConnection.getConnection();
             connection.setAutoCommit(false);
-
-
-            statement = connection.prepareStatement("DELETE FROM pokemones WHERE code = ?");
+            statement = connection.prepareStatement("DELETE FROM appliance WHERE id = ?");
             statement.setInt(1, id);
 
 
@@ -95,7 +96,7 @@ public class ApplianceMySqlDAOImpl implements ApplianceDAO{
 
     @Override
     public boolean supports(Class<?> selectedCass) {
-        return false;
+        return this.getClass().isAssignableFrom(selectedCass);
     }
 
     private void rollback() {

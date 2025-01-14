@@ -30,7 +30,7 @@ public class ApplianceHandler {
         ApplianceDTO appliance = applianceService.findById(applianceid);
         String applianceJson = objectMapper.writeValueAsString(appliance);
 
-        output.println(applianceid);
+        output.println(applianceJson);
     }
 
     public void deleteById(int applianceId, PrintWriter output) throws IOException {

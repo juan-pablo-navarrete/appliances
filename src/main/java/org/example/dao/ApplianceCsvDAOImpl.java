@@ -3,8 +3,6 @@ package org.example.dao;
 import lombok.NoArgsConstructor;
 import org.example.commons.CsvReader;
 import org.example.dto.ApplianceDTO;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class ApplianceCsvDAOImpl implements ApplianceDAO {
     }
 
     @Override
-    public ApplianceDTO finById(int id) {
+    public ApplianceDTO findById(int id) {
         List<ApplianceDTO> allAppliance = this.findAll();
         for (ApplianceDTO appliance: allAppliance){
             if (appliance.getId() == id) {
@@ -52,7 +50,7 @@ public class ApplianceCsvDAOImpl implements ApplianceDAO {
 
     @Override
     public boolean supports(Class<?> selectedCass) {
-        return false;
+        return this.getClass().isAssignableFrom(selectedCass);
     }
 
 }
